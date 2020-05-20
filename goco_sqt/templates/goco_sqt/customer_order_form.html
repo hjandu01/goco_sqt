@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+<h3>GoCO Sales Quote Tool</h3>
+<p>Enter customer details, select service packages and lease term.</p>
+</br>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'goco_sqt/form-template.html' %}
+    <div class="form-group">
+        <div class="col-sm-offset-8 col-sm-10">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
