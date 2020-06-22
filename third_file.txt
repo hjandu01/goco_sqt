@@ -1,3 +1,0 @@
-This is the third file that was added to the project
-
-Git is really useful
