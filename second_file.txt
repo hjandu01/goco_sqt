@@ -1,3 +1,0 @@
-This is the second file that was added to my project
-
-This file comes before 3rd file and git tracks changes
