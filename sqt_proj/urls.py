@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf.urls import url, include
 
 # importing views from goco_sqt app
-from goco_sqt import views as goco_sqt_views
+#from goco_sqt import views as goco_sqt_views
 
 app_name = 'goco_sqt'
 
@@ -31,5 +31,5 @@ urlpatterns = [
 #Add Django site authentication urls (for login, logout, password management)
 
 urlpatterns += [
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('goco_sqt/accounts/', include('django.contrib.auth.urls')),
 ]

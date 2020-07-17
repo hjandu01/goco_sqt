@@ -7,6 +7,12 @@ from django.forms import ModelForm, ChoiceField
 from django.urls import reverse
 from multiselectfield import MultiSelectField
 
+
+LEASE_TERM = [
+    ('3', '36 Months (3 Year)'),
+    ('5', '60 Months (5 Year)')
+]
+
 class Product_HPBX(models.Model):
     # Foreign Key used because Product_HPBX can only have one customer, but customers can have multiple
     sku_no = models.CharField(max_length=10)
@@ -17,7 +23,7 @@ class Product_HPBX(models.Model):
     comments = models.CharField(max_length=200, null=True, blank=True)
     svc_type = models.CharField(max_length=10, null=True, blank=True)
 
-    # Returns the url to access a detail record for this HPBX product."""
+    # Returns the url to access a detail record for this HPBX product.
     def get_absolute_url(self):
         return reverse('hpbx-detail', args=[str(self.id)])
 
@@ -26,24 +32,16 @@ class Product_HPBX(models.Model):
         return self.product_desc
 
 class Customer(models.Model):
-    # Model for Customer
+    # VOIP Service package options
     VOIP_SERVICES = [
-        ('hpbx_bsft', 'Hosted PBX UC (Broadsoft)'),
+        ('hpbx_bsft', 'Hosted PBX UC'),
         ('hpbx_sfb', 'Hosted PBX UC (Skype for Business)'),
         ('sipt', 'SIP Trunking (for on premise IP PBX’s)'),
         ('teams_dr', 'TEAMS Direct Routing'),
-        ('hcc', 'Hosted Call/Contact Center'),
-        ('citel', 'Citel Portico TVA')
+        ('hcc', 'Hosted Call/Contact Center')
     ]
 
-    LEASE_TERM = [
-        ('3', '36 Months (3 Year)'),
-        ('5', '60 Months (5 Year)')
-    ]
-
-    # django gives a number of predefined fields
-    # CharField and EmailField are only two of them
-    # go through the official docs for more field details
+    # Customer fields
     company_name = models.CharField(max_length=100)
     company_address = models.CharField(max_length=100)
     web_url = models.CharField(max_length=100, blank=True)
@@ -56,12 +54,13 @@ class Customer(models.Model):
     onsite_phone = models.CharField(max_length=100)
     service_packages = MultiSelectField(choices=VOIP_SERVICES)
     lease = MultiSelectField(choices=LEASE_TERM, blank=True)
-    #lease = forms.ChoiceField(widget=forms.RadioSelect, choices=LEASE_TERM, required=True)
+    lease = models.CharField(max_length=3, choices=LEASE_TERM, default='3')
+
 
     def __str__(self):
         return self.company_name
 
-    # on submit click on the customer entry page, it redirects to the url below.
+    # on submit click on the customer entry page, it redirects to order page
     def get_absolute_url(self):
 #        return reverse('customer-detail', args=[str(self.id)])
         return reverse('goco_sqt:order_list')

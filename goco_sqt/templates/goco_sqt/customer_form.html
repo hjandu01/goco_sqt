@@ -3,9 +3,15 @@
 {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
 {% endif %}
-<h3>GoCO Sales Quote Tool</h3>
-<p>Enter customer details, select service packages and lease term.</p>
-</br>
+<br/>
+<h5>Welcome to the Sales Quote Tool</h5>
+<p>This is a simple sales quote tool mockup for a Telco company that can place order for their service and products.</p>
+<p>It uses Django web framework as back end with Customer, Product and pricing information.</p>
+<p>The framework is setup to easily modify for different industry and business.</p>
+<br/>
+
+<p><u>Step 1:</u>  Enter customer details, select service packages and lease term.</p>
+<br/>
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% include 'goco_sqt/form-template.html' %}

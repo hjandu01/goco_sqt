@@ -1,11 +1,11 @@
 from django.shortcuts import render
 #from .forms import Product_HPBXForm
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.forms import modelformset_factory
-from .forms import CustomerForm
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
@@ -37,20 +37,6 @@ class CustomerCreate(CreateView):
         'lease'
         ]
 
-class OrderCreate(CreateView):
-    model = Customer_Order
-
-    fields = [
-    'order_no',
-    'customer',
-    'product',
-    'qty_mrc',
-    'qty_nrc',
-    'total_mrc',
-    'total_nrc'
-    ]
-
-
 # view for the Order page
 class OrderView(ListView):
     # name of the object to be used in the orders_form.html
@@ -61,11 +47,11 @@ class OrderView(ListView):
     def get_context_data(self, **kwargs):
         context = super(OrderView, self).get_context_data(**kwargs)
         context['customers'] = Customer.objects.latest('id')
-        context['product_hpbxs'] = self.queryset.filter(svc_type='bsft_hpbx')
-        context['product_msteamss'] = self.queryset.filter(svc_type='msteams_dr')
+        context['product_hpbxs'] = self.queryset.filter(svc_type='hpbx_bsft')
+        context['product_msteamss'] = self.queryset.filter(svc_type='teams_dr')
         context['product_ccs'] = self.queryset.filter(svc_type='hcc')
         context['product_addons'] = self.queryset.filter(svc_type='addon')
-        context['product_sfbs'] = self.queryset.filter(svc_type='sfb')
+        context['product_sfbs'] = self.queryset.filter(svc_type='hpbx_sfb')
         context['product_sipts'] = self.queryset.filter(svc_type='sipt')
         context['hardwares'] = Hardware.objects.filter(type='hw')
         context['phones'] = Hardware.objects.filter(type='phone')

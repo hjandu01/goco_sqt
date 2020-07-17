@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "main.html" %}
 
 {% block content %}
 
@@ -16,7 +16,7 @@
     {% endif %}
   {% endif %}
   <br>
-  <h1>GoCo Sales Quote Tool</h1>
+  <h4>A Simple Sales Quote Tool</h4>
   <br>
   <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
@@ -30,11 +30,9 @@
         <td>{{ form.password }}</td>
       </tr>
     </table>
+    <br/>
     <input type="submit" value="login" />
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
-
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
 {% endblock %}

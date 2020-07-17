@@ -1,33 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <br>
-  <h2>Sales Order - Service and Hardware Pricing</h2><br>
-  <style>
-  table, th, td {
-    border: 1px solid lightgrey;
+<br>
+<h5>Sales Order - Service and Hardware Pricing</h5><br>
+<style>
+    table, th, td {
+      border: 1px solid lightgrey;
+    }
+    th, td {
+    padding: 1px;
   }
-  th, td {
-  padding: 1px;
-}
-  </style>
- {% if customers %}
- <p>Quoted To:</p><br>
+</style>
 
-  <b>{{ customers.company_name }}</b> <br>
-  {{ customers.contact_name }} </br>
-  {{ customers.company_address }} <br>
-  {{ customers.company_number }} <br>
-
-
+{% if customers %}
+   <h5>Quoted To:</h5>
+    <b>{{ customers.company_name }}</b><br>
+    {{ customers.contact_name }} </br>
+    {{ customers.company_address }} <br>
+    {{ customers.company_number }} <br>
 {% endif %}
 <br>
 
-<!-- Display the MRC List Table -->
-<!--  <form method="post" novalidate>  -->
-<h4>MRC Table </h4>
+<!-- Display the Monthly Recurring Cost (MRC) List Table -->
+
+<h5>Monthly-Recurring Charges (MRC) Table </h5>
   <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <div id="tab">
     <table id="tblProducts" class="cell-border" style="width:90%">
       <thead>
       <tr>
@@ -38,17 +37,7 @@
         <th><center>Total</center></th>
       </tr>
     </thead>
-    <!--     <tbody id="myTable">  -->
     <tbody>
-<!--      {% for product_hpbx in product_hpbxs %}
-      <tr id="row_id_{{ product_hpbx.sku_no }}">
-            <td> {{ product_hpbx.sku_no }} </td>
-            <td> {{ product_hpbx.product_desc }} </td>
-            <td> <input class="form-calc form-cost" value="{{ product_hpbx.monthly_price }}" readonly/> </td>
-            <td> <input class="form-calc form-qty" /> </td>
-            <td><input class="form-line" readonly/> </td>
-      </tr>
-    {% endfor %}  -->
     </tbody>
     <tfoot id="tblFoot">
         <tr>
@@ -60,11 +49,13 @@
         </tr>
     </tfoot>
     </table>
-
-<!-- Display the Add Ons List Table -->
+    </div>
   <br>
 
-  <p>Select Service Item:</p>
+<!-- Display the Service List Items for Selection tha input into the MRC table using Javascript -->
+
+  <p><u>Step2:</u>  Select Service Item from choices below.  Click Add to enter item to the table </p>
+  <p><u>Step3:</u>  Enter the qty on line item in table above:</p>
 
   <div class="id_102">
       <p>HPBX Broadsoft
@@ -90,7 +81,7 @@
 
   <div class="id_104">
       <p>SIP Trunking
-  <select id="hpbx_sipt">
+  <select id="sipt">
   {% for product_sipt in product_sipts %}
     <option value1="{{ product_sipt.sku_no }}" value2="{{ product_sipt.product_desc }}" value3="{{ product_sipt.monthly_price }}">{{ product_sipt.product_desc }}    {{ product_sipt.monthly_price }}</option>
   {% endfor %}
@@ -122,10 +113,14 @@
   </div>
 
   <br/>
+  <br/>
 
-  <br>
-  <h4>NRC Table  </h4>
-  <br>
+  <!-- Display the Non-Recurring Cost (NRC) List Table -->
+
+  <h5>Non-Recurring Charges (NRC) Table  </h5>
+
+  <p><u>Step4:</u>  Select Hardware and Phones from choices below.  Click Add to enter item to the table </p>
+  <p><u>Step5:</u>  Enter the qty on line item in table above:</p>
 
     <table id="tblNRC" class="cell-border" style="width:90%">
       <thead>
@@ -149,252 +144,40 @@
         </tr>
     </tfoot>
     </table>
-  <br>
+  <br/>
+
+<!-- Display the Hardware & Phone Items for Selection tha input into the NRC table using Javascript -->
 
   <p>Select Hardware and Phones:</p>
 
   <div class="id_201">
-  <select id="hw" >
-  {% for hardware in hardwares %}
-    <option value1="{{ hardware.mfg_no }}" value2="{{ hardware.model_desc }}"  value3="{{ hardware.price_nt }}"> {{ hardware.model_desc }}   {{ hardware.price_nt }}</option>
-  {% endfor %}
-  </select>
-            <button type="button" class="btn-hw">Add</button>
+  <p>Hardware:
+    <select id="hw" >
+      {% for hardware in hardwares %}
+        <option value1="{{ hardware.mfg_no }}" value2="{{ hardware.model_desc }}"  value3="{{ hardware.price_nt }}"> {{ hardware.model_desc }}   {{ hardware.price_nt }}</option>
+      {% endfor %}
+    </select>
+    <button type="button" class="btn-hw">Add</button>
+  </p>
   </div>
 
   <div class="id_202">
-  <select id="phone" >
-  {% for phone in phones %}
-    <option value1="{{ phone.mfg_no }}" value2="{{ phone.model_desc }}"  value3="{{ phone.price_nt }}"> {{ phone.model_desc }}   {{ phone.price_nt }}</option>
-  {% endfor %}
-  </select>
-            <button type="button" class="btn-phone">Add</button>
+    <p>Phones:
+      <select id="phone" >
+          {% for phone in phones %}
+            <option value1="{{ phone.mfg_no }}" value2="{{ phone.model_desc }}"  value3="{{ phone.price_nt }}"> {{ phone.model_desc }}   {{ phone.price_nt }}</option>
+          {% endfor %}
+      </select>
+      <button type="button" class="btn-phone">Add</button>
+    </p>
   </div>
 
   <br>
-   <!--
-   <button type="button" onclick="exportToExcel('tblProducts')">Export To Excel</button>  -->
-   <!-- <button type="button" onclick="download();">Export to Excel</button>  -->
-   <button type="button" id="button-a">Create Excel</button>
-  <!-- <button id="btnExport" type="button" onclick="exportReportToExcel(this)">Export to Excel</button>  -->
 
-  <br>
+  <div class="col-sm-offset-8 col-sm-10">
+      <button type="submit" class="btn btn-light"><a href="{% url 'logout' %}">Logout</a></button>
+  </div>
 
 </form>
 
-  <p><a href="{% url 'logout' %}">logout</a></p>
-
-<!-- Script to select product hpbx to table -->
-<script type="text/javascript">
-
-    $('.btn-hpbx-bsft').click(function() {
-        //The HTML of the TR row that we want to add to our table.
-        var sku_val = $("#hpbx_bsft option:selected").attr("value1");
-        var desc_val = $("#hpbx_bsft option:selected").attr("value2");
-        var price_val = $("#hpbx_bsft option:selected").attr("value3");
-        var markup = "<tr id='row_id_" +sku_val+ "'><td>" + sku_val + "</td><td>" + desc_val +
-                     "</td><td><input class='form-calc form-cost' value=" + price_val +
-                     " readonly></td><td><input class='form-calc form-qty' ></td><td><input class='form-line' readonly></td></tr>";
-
-        //Add the HTML after the last row by using tr:last.
-        $('#tblProducts').append(markup);
-      //  $( "#tblProducts #myTable" ).load( "#tblProducts #myTable" );
-
-      });
-</script>
-
-<!-- Script to select product msteams to table -->
-<script type="text/javascript">
-
-    $('.btn-msteams').click(function() {
-        //The HTML of the TR row that we want to add to our table.
-        var sku_val = $("#msteams option:selected").attr("value1");
-        var desc_val = $("#msteams option:selected").attr("value2");
-        var price_val = $("#msteams option:selected").attr("value3");
-        var markup = "<tr id='row_id_" +sku_val+ "'><td>" + sku_val + "</td><td>" + desc_val +
-                     "</td><td><input class='form-calc form-cost' value=" + price_val +
-                     " readonly></td><td><input class='form-calc form-qty'></td><td><input class='form-line' readonly></td><td><a class='deleteRowButton'>delete</a></td></tr>";
-
-        //Add the HTML after the last row by using tr:last.
-        $('#tblProducts').append(markup);
-      //  $( "#tblProducts #myTable" ).load( "#tblProducts #myTable" );
-
-      });
-</script>
-
-<!-- Script to select product call center to table -->
-<script type="text/javascript">
-
-    $('.btn-hpbx-cc').click(function() {
-        //The HTML of the TR row that we want to add to our table.
-        var sku_val = $("#hpbx_cc option:selected").attr("value1");
-        var desc_val = $("#hpbx_cc option:selected").attr("value2");
-        var price_val = $("#hpbx_cc option:selected").attr("value3");
-        var markup = "<tr id='row_id_" +sku_val+ "'><td>" + sku_val + "</td><td>" + desc_val +
-                     "</td><td><input class='form-calc form-cost' value=" + price_val +
-                     " readonly></td><td><input class='form-calc form-qty' ></td><td><input class='form-line' readonly></td></tr>";
-
-        //Add the HTML after the last row by using tr:last.
-        $('#tblProducts').append(markup);
-      //  $( "#tblProducts #myTable" ).load( "#tblProducts #myTable" );
-
-      });
-</script>
-
-<!-- Script to select add-ons to table -->
-  <script type="text/javascript">
-
-      $('.btn-add-on').click(function() {
-          //The HTML of the TR row that we want to add to our table.
-          var sku_val = $("#addon option:selected").attr("value1");
-          var desc_val = $("#addon option:selected").attr("value2");
-          var price_val = $("#addon option:selected").attr("value3");
-          var markup = "<tr id='row_id_" +sku_val+ "'><td>" + sku_val + "</td><td>" + desc_val +
-                       "</td><td><input class='form-calc form-cost' value=" + price_val +
-                       " readonly></td><td><input class='form-calc form-qty' ></td><td><input class='form-line' readonly></td></tr>";
-
-          //Add the HTML after the last row by using tr:last.
-          $('#tblProducts').append(markup);
-        //  $( "#tblProducts #myTable" ).load( "#tblProducts #myTable" );
-
-        });
-  </script>
-
-<!-- Script to select hardware to table -->
-
-<script type="text/javascript">
-
-    $('.btn-hw').click(function() {
-        //The HTML of the TR row that we want to add to our table.
-        var sku_val = $("#hw option:selected").attr("value1");
-        var desc_val = $("#hw option:selected").attr("value2");
-        var price_val = $("#hw option:selected").attr("value3");
-        var markup = "<tr id='row_id_" +sku_val+ "'><td>" + sku_val + "</td><td>" + desc_val +
-                     "</td><td><input class='form-calc-hw form-cost-hw' value=" + price_val +
-                     " readonly></td><td><input class='form-calc-hw form-qty-hw'></td><td><input class='form-line-hw' readonly></td></tr>";
-
-        //Add the HTML after the last row by using tr:last.
-        $('#tblNRC').append(markup);
-    //    $( "#tblProducts #myTable" ).load( "orders_form.html #tblProducts #myTable" );
-
-      });
-</script>
-
-
-<script type="text/javascript">
-
-    $('.btn-phone').click(function() {
-        //The HTML of the TR row that we want to add to our table.
-        var sku_val = $("#phone option:selected").attr("value1");
-        var desc_val = $("#phone option:selected").attr("value2");
-        var price_val = $("#phone option:selected").attr("value3");
-        var markup = "<tr id='row_id_" +sku_val+ "'><td>" + sku_val + "</td><td>" + desc_val +
-                     "</td><td><input class='form-calc-hw form-cost-hw' value=" + price_val +
-                     " readonly></td><td><input class='form-calc-hw form-qty-hw'></td><td><input class='form-line-hw' readonly></td></tr>";
-
-        //Add the HTML after the last row by using tr:last.
-        $('#tblNRC').append(markup);
-    //    $( "#tblProducts #myTable" ).load( "orders_form.html #tblProducts #myTable" );
-
-      });
-</script>
-
-<!-- Script to select calculate MRC table -->
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#tblProducts").on("keyup", ".form-calc", function() {
-        var parent = $(this).closest("tr");
-        var price_tmp = parent.find(".form-cost").val();
-        var price = price_tmp.replace("C$", "");
-        parent.find(".form-line").val((parent.find(".form-qty").val() * parseFloat(price)).toFixed(2));
-        var total = 0;
-        $(".form-line").each(function(){
-            total += parseFloat($(this).val()||0);
-        });
-        $("#total").text(total.toFixed(2));
-    });
-});
-
-</script>
-
-<!-- Script to select calculate NRC table -->
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#tblNRC").on("keyup", ".form-calc-hw", function() {
-        var parent = $(this).closest("tr");
-        var price_tmp = parent.find(".form-cost-hw").val();
-        var price = price_tmp.replace("C$", "");
-        parent.find(".form-line-hw").val((parent.find(".form-qty-hw").val() * parseFloat(price)).toFixed(2));
-        var total = 0;
-        $(".form-line-hw").each(function(){
-            total += parseFloat($(this).val()||0);
-        });
-        $("#nrc_grdtot").text(total.toFixed(2));
-    });
-});
-</script>
-
-  <script type="text/javascript">
-  function exportToExcel(tableID, filename = ''){
-      var downloadurl;
-      var dataFileType = 'application/vnd.ms-excel';
-      var tableSelect = document.getElementById(tableID);
-      var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
-
-      // Specify file name
-      filename = filename?filename+'.xls':'export_excel_data.xls';
-
-      // Create download link element
-      downloadurl = document.createElement("a");
-
-      document.body.appendChild(downloadurl);
-
-      if(navigator.msSaveOrOpenBlob){
-          var blob = new Blob(['\ufeff', tableHTMLData], {
-              type: dataFileType
-          });
-          navigator.msSaveOrOpenBlob( blob, filename);
-      }else{
-          // Create a link to the file
-          downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
-
-          // Setting the file name
-          downloadurl.download = filename;
-
-          //triggering the function
-          downloadurl.click();
-      }
-  }
-
-  </script>
-
-<script type="text/javascript">
-          var wb = XLSX.utils.table_to_book(document.getElementById('tblProducts'), {sheet:"Sheet JS"});
-          var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
-          function s2ab(s) {
-                          var buf = new ArrayBuffer(s.length);
-                          var view = new Uint8Array(buf);
-                          for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-                          return buf;
-          }
-          $("#button-a").click(function(){
-          saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'sales_quote.xlsx');
-          });
-</script>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-      $("#btnExport").click(function() {
-          let table = document.getElementsByTagName("tblProducts");
-          TableToExcel.convert(table[0], { // html code may contain multiple tables so here we are refering to 1st table tag
-             name: `export.xls`, // fileName you could use any name
-             sheet: {
-                name: 'Sheet 1' // sheetName
-             }
-          });
-      });
-  });
-</script>
 {% endblock content%}

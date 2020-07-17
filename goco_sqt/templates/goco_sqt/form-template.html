@@ -5,11 +5,9 @@
             <span class="text-danger la">{{ field.errors }}</span>
         </div>
         <table>
-            <tr><td>{{ field.label_tag }}</td>
-                <td>{{ field }}</td>
+            <tr><td><p>{{ field.label_tag }} *</p></td>
+                <td><p>{{ field }}</p></td>
             </tr>
-  <!--       <label>{{ field.label_tag }}        {{ field }}</label>
- <!--       <div class="col-sm-8">{{ field }}</div>  -->
         </table>
     </div>
 {% endfor %}

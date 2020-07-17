@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'sqt_proj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'hdnrc1',
+        'USER': 'djangodbman',
+        'PASSWORD': 'M$ndhaX4',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -126,4 +130,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'goco_sqt/static')
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/goco_sqt/customer/add'
-LOGOUT_REDIRECT_URL = '/accounts/login'
+# LOGOUT_REDIRECT_URL = 'goco_sqt/accounts/login'
