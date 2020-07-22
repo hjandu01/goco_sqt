@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '85h80g_^z8oc8oyap21q8zn5))&^psvh#%&7$csm359ghyoi@='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'sqt_proj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hdnrc1',
-        'USER': 'djangodbman',
-        'PASSWORD': 'M$ndhaX4',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': '<db type>',
+        'NAME': '<db name>',
+        'USER': '<username>',
+        'PASSWORD': '<password>',
+        'HOST': '<host>',
+        'PORT': '<port>',
     }
 }
 
